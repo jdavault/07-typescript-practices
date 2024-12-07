@@ -1,0 +1,42 @@
+console.log('------- Sandbox -------');
+
+// Removed redundant type alias SomeNumberType
+//type SomeStringType = string;
+
+type MyConditionalType<T> = T extends string ? string : null;
+
+function someFunctionFactory<T>(value: T) {
+  type A = T extends boolean
+    ? 'TYPE A'
+    : T extends string
+    ? 'TYPE B'
+    : T extends number
+    ? 'TYPE C'
+    : 'TYPE D';
+
+  const someOtherFunction = (
+    someArg: T extends boolean ? 'TYPE A' : 'TYPE B'
+  ) => {
+    //console.log(`someArg: ${someArg} value: ${value}`);
+    const a: 'TYPE A' | 'TYPE B' = someArg;
+  };
+  return someOtherFunction;
+}
+
+const result = someFunctionFactory('true');
+//result('TYPE B');
+
+const result2 = someFunctionFactory(true);
+//result2('TYPE A');
+
+const result3 = someFunctionFactory(3);
+
+type stringOrNumber<T> = T extends string ? string : never;
+
+type AUnion = string | boolean | never;
+
+// Removed redundant type alias SomeNumberType
+type ResultType = Exclude<'a' | 'b' | 'c', 'a' | 'b'>;
+
+type MyType<T> = (() => T) extends () => string | number ? T : never;
+type MyResult = MyType<string | number | boolean>;
